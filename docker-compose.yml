@@ -1,35 +1,46 @@
-version: '3.3'
+version: '3.4'
 services:
-    gogsdb:
-      image: mysql:${MYSQL_VERSION}
-      container_name: ${MYSQL_HOST}
+    gitea-db:
+      image: mariadb
+      container_name: ${GITEA_MYSQL_HOST}
       restart: always
       env_file:
           - .env
       environment:
-          - MYSQL_DATABASE=${MYSQL_DATABASE}
-          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-          - MYSQL_USER=${MYSQL_USER}
-          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      ports:
-          - 13306:3306
+          - MYSQL_DATABASE=${GITEA_MYSQL_DATABASE}
+          - MYSQL_ROOT_PASSWORD=${GITEA_MYSQL_ROOT_PASSWORD}
+          - MYSQL_USER=${GITEA_MYSQL_USER}
+          - MYSQL_PASSWORD=${GITEA_MYSQL_PASSWORD}
       volumes:
-          - db-data:/var/lib/mysql
-    gogsapp:
-      image: gogs/gogs
+          - gitea-data:/var/lib/mysql
+    
+    gitea-app:
+      image: gitea/gitea
+      container_name: gitea-app
       restart: always
       ports:
-        - ${GOGS_SSH_PORT}:22
-        - ${GOGS_HOST_PORT}:3000
+        - ${GITEA_SSH_PORT}:22
+        - ${GITEA_HOST_PORT}:3000
       environment:
         - RUN_CROND=true
+        - VIRTUAL_HOST=${GITEA_VIRTUAL_HOST}
+        - VIRTUAL_PORT=3000
+        - LETSENCRYPT_HOST=${GITEA_VIRTUAL_HOST}
+        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       volumes:
-        - gogs-data:/data
+        - gitea-data:/data
       depends_on:
-        - gogsdb
+        - gitea-db
 
 volumes:
   gogs-data:
     driver: local
-  db-data:
+    name: gogs-data
+  gitea-data:
     driver: local
+    name: gitea-db
+
+networks:
+    default:
+       external:
+         name: nginx-proxy

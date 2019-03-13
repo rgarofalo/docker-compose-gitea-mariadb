@@ -4,27 +4,27 @@ RUN_MODE = prod
 
 [server]
 PROTOCOL         = https
-DOMAIN           = localhost
+DOMAIN           = mydomain.com
 HTTP_PORT        = 3000
-ROOT_URL         = https://localhost:10080/
+ROOT_URL         = https://git.mydomain.com/
 DISABLE_SSH      = false
 SSH_PORT         = 10022
 START_SSH_SERVER = false
 OFFLINE_MODE     = false
-CERT_FILE        = /app/gogs/cert.pem
-KEY_FILE         = /app/gogs/key.pem
+CERT_FILE        = /app/gitea/cert.pem
+KEY_FILE         = /app/gitea/key.pem
 
 [repository]
-ROOT = /data/git/gogs-repositories
+ROOT = /data/git/git-repositories
 
 [database]
 DB_TYPE  = mysql
-HOST     = gogsdb:3306
-NAME     = gogs
+HOST     = gitea-db:3306
+NAME     = gitea
 USER     = root
 PASSWD   = root
 SSL_MODE = disable
-PATH     = data/gogs.db
+PATH     = data/gitea.db
 
 ; Allowed TLS version values: SSL30, TLS10, TLS11, TLS12
 ;TLS_MIN_VERSION = TLS10
@@ -49,7 +49,7 @@ PROVIDER = file
 [log]
 MODE      = file
 LEVEL     = Info
-ROOT_PATH = /app/gogs/log
+ROOT_PATH = /app/gitea/log
 
 [other]
 SHOW_FOOTER_VERSION            = false
