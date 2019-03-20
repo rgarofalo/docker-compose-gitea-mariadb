@@ -1,5 +1,4 @@
-# Docker Gogs MySQL [![Build Status](https://travis-ci.org/nanoninja/docker-gogs-mysql.svg?branch=master)](https://travis-ci.org/nanoninja/docker-gogs-mysql) [![GitHub version](https://badge.fury.io/gh/nanoninja%2Fdocker-gogs-mysql.svg)](https://badge.fury.io/gh/nanoninja%2Fdocker-gogs-mysql)
-
+# Docker gitea mariadb 
 ## [Gogs](https://gogs.io/) is a painless self-hosted Git service
 
 ### Getting started
@@ -7,7 +6,7 @@
 1. Clone project :
 
     ```sh
-    git clone https://github.com/nanoninja/docker-gogs-mysql.git
+    git clone https://github.com/rgarofalo/docker-gitea-mariadb
     ```
 
 2. You could customize your settings before installation :
