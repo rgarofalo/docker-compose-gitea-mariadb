@@ -12,7 +12,11 @@ services:
           - MYSQL_USER=${GITEA_MYSQL_USER}
           - MYSQL_PASSWORD=${GITEA_MYSQL_PASSWORD}
       volumes:
-          - gitea-data:/var/lib/mysql
+          - /var/lib/mysql/gitea:/var/lib/mysql
+      networks:
+        default:
+          aliases:
+            - gitea-db
     
     gitea-app:
       image: gitea/gitea
@@ -20,7 +24,6 @@ services:
       restart: always
       ports:
         - ${GITEA_SSH_PORT}:22
-        - ${GITEA_HOST_PORT}:3000
       environment:
         - RUN_CROND=true
         - VIRTUAL_HOST=${GITEA_VIRTUAL_HOST}
@@ -28,19 +31,19 @@ services:
         - LETSENCRYPT_HOST=${GITEA_VIRTUAL_HOST}
         - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       volumes:
-        - gitea-data:/data
+        - /var/lib/gitea-data:/data
+        - /etc/timezone:/etc/timezone:ro
+        - /etc/localtime:/etc/localtime:ro
+        - ${LETSENCRYPT_CERT_ROOT_PATH}/${GITEA_VIRTUAL_HOST}:/etc/ssl/${GITEA_VIRTUAL_HOST}:ro
       depends_on:
         - gitea-db
-
-volumes:
-  gogs-data:
-    driver: local
-    name: gogs-data
-  gitea-data:
-    driver: local
-    name: gitea-db
+      networks:
+        default:
+          aliases:
+            - gitea
 
 networks:
-    default:
-       external:
-         name: nginx-proxy
+  default:
+    external:
+      name: nginx-proxy
+            
