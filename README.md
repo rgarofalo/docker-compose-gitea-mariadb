@@ -1,5 +1,13 @@
 # Docker gitea mariadb 
-## [Gogs](https://gogs.io/) is a painless self-hosted Git service
+
+### Prerequisites
+
+In order to use this compose file (docker-compose.yml) you must have:
+
+1. docker [https://docs.docker.com/engine/installation/](https://docs.docker.com/engine/installation/)
+2. docker-compose [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
+3. docker-compose-letsencrypt-nginx-proxy-companion [https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion](https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion)
+
 
 ### Getting started
 
@@ -21,9 +29,6 @@
 
     # Start services
     sudo docker-compose up -d
-
-    # Generate self-signed certificates
-    source .env && sudo docker-compose exec -T gitea-app bash -c "cd /app/gitea; exec /app/gitea/gitea cert -ca=true -duration=$GITEA_CERT_DURATION -host=$GITEA_VIRTUAL_HOST"
 
     # Copy the configuration file to the container
     sudo docker cp $(pwd)/etc/app.ini $(sudo docker-compose ps -q gitea-app):/data/gitea/conf/app.ini
