@@ -3,16 +3,18 @@ RUN_USER = git
 RUN_MODE = prod
 
 [server]
-PROTOCOL         = https
-DOMAIN           = mydomain.com
+PROTOCOL         = http
+DOMAIN           = git.mydomain.com
 HTTP_PORT        = 3000
 ROOT_URL         = https://git.mydomain.com/
 DISABLE_SSH      = false
 SSH_PORT         = 10022
 START_SSH_SERVER = false
 OFFLINE_MODE     = false
-CERT_FILE        = /app/gitea/cert.pem
-KEY_FILE         = /app/gitea/key.pem
+
+CERT_FILE        = /etc/ssl/git.mydomain.com/cert.pem
+KEY_FILE         = /etc/ssl/git.mydomain.com/key.pem
+
 
 [repository]
 ROOT = /data/git/git-repositories
@@ -54,3 +56,11 @@ ROOT_PATH = /app/gitea/log
 [other]
 SHOW_FOOTER_VERSION            = false
 SHOW_FOOTER_TEMPLATE_LOAD_TIME = false
+
+[mailer]
+ENABLED = true
+HOST  = smtp.gmail.com:465
+FROM  = "xx xx" <xxx@xx.xx>
+USER  = xxx@xx.xx
+PASSWD = xxxxxx
+
